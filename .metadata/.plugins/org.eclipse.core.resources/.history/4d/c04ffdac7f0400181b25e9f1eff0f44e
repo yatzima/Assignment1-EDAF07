@@ -1,0 +1,30 @@
+public class Model {
+	private static int player1 = 1;
+	private static int player2 = 0;
+	private int[][] board;
+	
+	public Model(){
+		board = new int[8][8];
+		setNewGame();	
+	}
+	
+	private void setNewGame(){
+		board[3][3] = player1;
+		board[4][4] = player1;
+		board[3][4] = player2;
+		board[4][3] = player2;
+	}
+	
+	public int getRow(){
+		return board.length;
+	}
+	
+	public int getCol(){
+		return board[0].length;
+	}
+	
+	public int getPlayer(int row, int col){
+		return board[row][col];
+	}
+	
+}

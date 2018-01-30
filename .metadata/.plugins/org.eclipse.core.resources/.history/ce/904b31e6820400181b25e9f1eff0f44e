@@ -1,0 +1,12 @@
+public class View {
+	public void getBoard(Model board){
+			for(int i = 0; i < board.getRow(); i++){
+				for(int j = 0; j < board.getCol(); j++){
+					System.out.print(board.getPlayer(i, j));
+				}
+				System.out.println(" ");
+			}
+			System.out.println(" ");
+	}
+
+}
