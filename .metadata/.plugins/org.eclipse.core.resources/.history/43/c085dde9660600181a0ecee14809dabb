@@ -10,6 +10,7 @@ public class Agent {
 	
 	/** Defines the utility function for the mini-max adversarial search */
 	private int minimax(){
+
 		return 0;
 	}
 }
