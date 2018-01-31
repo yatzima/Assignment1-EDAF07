@@ -1,0 +1,124 @@
+public class Model {
+	private final static int player1 = 1;
+	private final static int player2 = 2;
+	private int[][] board;
+
+	public Model() {
+		board = new int[8][8];
+		setNewGame();
+	}
+
+	public int getRow() {
+		return board.length;
+	}
+
+	public int getCol() {
+		return board[0].length;
+	}
+
+	public int getPlayer(int row, int col) {
+		return board[row][col];
+	}
+
+	public void setDisk(int row, int col, int player) {
+		if (isLegalMove(row, col, player)) {
+			setDiskUp(row, col, player);
+		} else {
+			System.out.println("Not a valid move! Try again!");
+		}
+	}
+
+	private void setDiskUp(int row, int col, int player) {
+		int newRow = row;
+		int newCol = col;
+		do {
+			board[newRow][newCol] = player;
+			newRow = newRow - 1;
+		} while (checkUp(newRow, newCol, player));
+		if(getPlayer(newRow, newCol) == getOppPlayer(player)){
+			board[newRow][newCol] = player;
+		}
+	}
+	
+	private void setDiskRight(int row, int col, int player) {
+		int newRow = row;
+		int newCol = col;
+		do {
+			board[newRow][newCol] = player;
+			newRow = newRow + 1;
+		} while (checkUp(newRow, newCol, player));
+		if(getPlayer(newRow, newCol) == getOppPlayer(player)){
+			board[newRow][newCol] = player;
+		}
+	}
+
+	/** Private method for clearing the board and setting the start disks. */
+	private void setNewGame() {
+		for (int row = 0; row < getRow(); row++) {
+			for (int col = 0; col < getCol(); col++) {
+				board[row][col] = 0;
+			}
+		}
+		board[3][3] = player1;
+		board[4][4] = player1;
+		board[3][4] = player2;
+		board[4][3] = player2;
+	}
+
+	private boolean isLegalMove(int row, int col, int player) {
+		if (isInsideBoard(row, col) && hasNeighbours(row, col, player)) {
+			return isSurrounded(row, col, player);
+		}
+		return false;
+
+	}
+
+	private boolean isInsideBoard(int row, int col) {
+		return row >= 0 && row < 8 && col >= 0 && col < 8;
+	}
+
+	private boolean hasNeighbours(int row, int col, int player) {
+		int oppPlayer = getOppPlayer(player);
+		for (int i = -1; i <= 1; i++) {
+			for (int j = -1; j <= 1; j++) {
+				if (oppPlayer == getPlayer(row + i, col + j)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	private int getOppPlayer(int player) {
+		return player == player1 ? player2 : player1;
+	}
+
+	private boolean isSurrounded(int row, int col, int player) {
+		int oppPlayer = getOppPlayer(player);
+		return checkUp(row, col, oppPlayer);
+
+		// || checkUpRight(row, col, oppPlayer) || checkRight(row, col,
+		// oppPlayer)
+		// || checkDownRight(row, col, oppPlayer) || checkDown(row, col,
+		// oppPlayer)
+		// || checkDownLeft(row, col, oppPlayer) || checkLeft(row, col,
+		// oppPlayer)
+		// || checkUpLeft(row, col, oppPlayer);
+	}
+
+	private boolean checkUp(int row, int col, int player) {
+		int newRow = row;
+		int newCol = col;
+		while (isInsideBoard(newRow, newCol)) {
+			newRow = newRow - 1;
+			if (getPlayer(newRow, newCol) == player) {
+				continue;
+			} else if (getPlayer(newRow, newCol) == getOppPlayer(player)) {
+				return true;
+			} else if (getPlayer(newRow, newCol) == 0) {
+				return false;
+			}
+		}
+		return false;
+	}
+}

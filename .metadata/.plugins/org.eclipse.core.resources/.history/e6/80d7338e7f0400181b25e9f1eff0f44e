@@ -1,0 +1,12 @@
+
+public class Reversi {
+
+	public static void main(String[] args) {
+		Model game = new Model();
+		for(int i = 0; i < Model.getRow, i++){
+			for()
+		}
+
+	}
+
+}

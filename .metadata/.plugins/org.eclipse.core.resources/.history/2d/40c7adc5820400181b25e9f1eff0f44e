@@ -1,0 +1,12 @@
+
+public class Reversi {
+
+	public static void main(String[] args) {
+		Model game = new Model();
+		game.getBoard();
+		game.setDisk(1, 1, 1);
+		game.setDisk(1, 2, 2);
+		game.getBoard();
+	}
+
+}
