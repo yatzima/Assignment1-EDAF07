@@ -2,9 +2,10 @@ public class Model {
 	private final static int player1 = 1;
 	private final static int player2 = 2;
 	private int[][] board;
+	private int size = 8;
 
 	public Model() {
-		board = new int[8][8];
+		board = new int[size][size];
 		setNewGame();
 	}
 
@@ -174,15 +175,15 @@ public class Model {
 	}
 
 	private boolean isLegalMove(int row, int col, int player) {
-		if (isInsideBoard(row, col) && hasNeighbours(row, col, player)) {
-			return isSurrounded(row, col, player);
+		if (isInsideBoard(row, col) && getPlayer(row,col)==0 && hasNeighbours(row, col, player)) {
+			return isSurrounded(row, col, player); //Räcker det inte med hasNeighbours?
 		}
 		return false;
 
 	}
 
 	private boolean isInsideBoard(int row, int col) {
-		return row >= 0 && row < 8 && col >= 0 && col < 8;
+		return row >= 0 && row < board.length && col >= 0 && col < board[0].length;
 	}
 
 	private boolean isOnTheEdge(int row, int col) {
@@ -207,6 +208,9 @@ public class Model {
 		return player == player1 ? player2 : player1;
 	}
 
+	/**
+	 * Checks whether player has an opponent player as a neighbour
+	 */
 	private boolean isSurrounded(int row, int col, int player) {
 		int oppPlayer = getOppPlayer(player);
 		return checkUp(row, col, oppPlayer) || checkUpRight(row, col, oppPlayer) || checkRight(row, col, oppPlayer)
@@ -215,6 +219,9 @@ public class Model {
 				|| checkUpLeft(row, col, oppPlayer);
 	}
 
+	/**
+	 * Checks if player is above row, col
+	 */
 	private boolean checkUp(int row, int col, int player) {
 		int newRow = row - 1;
 		int newCol = col;
@@ -222,10 +229,10 @@ public class Model {
 		while (isInsideBoard(newRow, newCol)) {
 			if (getPlayer(newRow, newCol) == player) {
 				newRow = newRow - 1;
-				counter++;
+				counter++; //Kan vi inte bara returnera true direkt?
 				continue;
 			} else if (getPlayer(newRow, newCol) == getOppPlayer(player)) {
-				return counter > 0;
+				return counter > 0; 
 			} else if (getPlayer(newRow, newCol) == 0) {
 				return false;
 			}

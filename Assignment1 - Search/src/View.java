@@ -1,7 +1,10 @@
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*; 
  
-public class View {
+public class View{
 	private Model board;
 	public View(Model board){
 		this.board=board;
@@ -26,12 +29,11 @@ public class View {
 //		 frame.getContentPane().add(textLabel, BorderLayout.CENTER); 
 
 		 frame.getContentPane().setLayout(new GridLayout(board.getRow(),board.getCol()));
+		
 		 for(int i=0; i<board.getRow(); i++) {
 			 for(int j =0; j<board.getCol(); j++) {
-				 JTextArea label = new JTextArea(7,10);
-				 label.setBackground(getColor(board.getPlayer(i,j)));
-				 label.setOpaque(true);
-				 frame.getContentPane().add(label);
+				 JButton disk = new JDiskButton(i,j, board.getPlayer(i, j));
+				 frame.getContentPane().add(disk);
 			 }
 		 }
 		 
@@ -41,17 +43,7 @@ public class View {
 		 frame.pack();
 		 frame.setVisible(true); 
 	 } 
-	 private Color getColor(int index) {
-		 switch(index) {
-		 case 0:
-			 return Color.GREEN;
-		 case 1:
-			 return Color.black;
-		 case 2:
-			 return Color.white;
-		 default:
-			 return Color.green;
-		 }
-	 }
 	 
+ 
+
 }
