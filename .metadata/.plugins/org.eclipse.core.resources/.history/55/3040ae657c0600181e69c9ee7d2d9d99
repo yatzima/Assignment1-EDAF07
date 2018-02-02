@@ -12,12 +12,6 @@ public class Coordinate {
 			col = Character.toLowerCase(XY.charAt(0));
 			row = XY.charAt(1);
 	}
-	
-	public Coordinate(int row, int col){
-		this.row = row;
-		this.col = (char) col;
-		
-	}
 
 	public int getRow() {
 		return row;

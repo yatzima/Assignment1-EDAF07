@@ -1,11 +1,8 @@
-import java.util.ArrayList;
-
 public class Model {
 	private final static int player1 = 1;
 	private final static int player2 = 2;
 	private int[][] board;
 	private int size = 8;
-	private int totNbrOfDisks = 0;
 
 	public Model() {
 		board = new int[size][size];
@@ -39,66 +36,6 @@ public class Model {
 		return true;
 	}
 
-	private void announceWinner() {
-		int player1 = 0;
-		int player2 = 0;
-		for (int i = 0; i < getRow(); i++) {
-			for (int j = 0; j < getCol(); j++) {
-				int disk = getPlayer(i, j);
-				if (disk == 1) {
-					player1++;
-				} else if (disk == 2) {
-					player2++;
-				}
-			}
-		}
-		int winner = (player1 > player2 ? 1 : 2);
-		System.out.println("Player " + winner + " won. The result is is: " + player1 + " - " + player2);
-	}
-
-	public int getNbrOfDisks(){
-		return totNbrOfDisks;
-	}
-	
-	public int[] countPlayerDisks() {
-		int counter1 = 0;
-		int counter2 = 0;
-		for (int i = 0; i < getRow(); i++) {
-			for (int j = 0; j < getCol(); j++) {
-				int disk = getPlayer(i, j);
-				if (disk == 1) {
-					counter1++;
-				} else if (disk == 2) {
-					counter2++;
-				}
-			}
-		}
-		int[] vec = new int[2];
-		vec[0] = counter1;
-		vec[1] = counter2;
-		
-		return vec;
-	}
-	
-	public int getWinner(){
-		int[] vec = countPlayerDisks();
-		return vec[0] > vec[1] ? 1 : 2;
-	}
-
-	public ArrayList<Coordinate> countLegalMoves(int player){
-		ArrayList<Coordinate> list = new ArrayList<Coordinate>();
-		
-		for (int i = 0; i < getRow(); i++) {
-			for (int j = 0; j < getCol(); j++) {
-				if (isLegalMove(i, j, player)) {
-					Coordinate cord = new Coordinate(i, j);
-					list.add(cord);
-				}
-			}
-		}
-		return list;
-	}
-	
 	public void markLegalMoves(int player) {
 		for (int i = 0; i < getRow(); i++) {
 			for (int j = 0; j < getCol(); j++) {
@@ -119,7 +56,6 @@ public class Model {
 			setDiskDownLeft(row, col, player);
 			setDiskLeft(row, col, player);
 			setDiskUpLeft(row, col, player);
-			totNbrOfDisks++;
 		} else {
 			System.out.println("Not a valid move! Try again!");
 		}
@@ -236,13 +172,11 @@ public class Model {
 		board[4][4] = player1;
 		board[3][4] = player2;
 		board[4][3] = player2;
-		totNbrOfDisks = 4;
 	}
 
 	private boolean isLegalMove(int row, int col, int player) {
-		if (isInsideBoard(row, col) && getPlayer(row, col) == 0 && hasNeighbours(row, col, player)) {
-			return isSurrounded(row, col, player); // Rï¿½cker det inte med
-													// hasNeighbours?
+		if (isInsideBoard(row, col) && getPlayer(row,col)==0 && hasNeighbours(row, col, player)) {
+			return isSurrounded(row, col, player); //Räcker det inte med hasNeighbours?
 		}
 		return false;
 
@@ -295,10 +229,10 @@ public class Model {
 		while (isInsideBoard(newRow, newCol)) {
 			if (getPlayer(newRow, newCol) == player) {
 				newRow = newRow - 1;
-				counter++; // Kan vi inte bara returnera true direkt?
+				counter++; //Kan vi inte bara returnera true direkt?
 				continue;
 			} else if (getPlayer(newRow, newCol) == getOppPlayer(player)) {
-				return counter > 0;
+				return counter > 0; 
 			} else if (getPlayer(newRow, newCol) == 0) {
 				return false;
 			}
